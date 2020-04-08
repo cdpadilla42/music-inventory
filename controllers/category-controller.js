@@ -1,5 +1,13 @@
-exports.listCategories = (req, res) => {
-  res.send('NOT IMPLEMENTED: List Categories');
+const Category = require('../models/category');
+
+exports.listCategories = (req, res, next) => {
+  // get list of categories
+  Category.find({}).exec((err, results) => {
+    // check for errors
+    if (err) return next(err);
+    // render page
+    res.render('category_list', { title: 'Categories', categories: results });
+  });
 };
 
 exports.categoryDetails = (req, res) => {

@@ -11,7 +11,7 @@ const ItemSchema = new Schema({
 });
 
 // URL virtual
-ItemSchema.virtual('url').get(() => {
+ItemSchema.virtual('url').get(function () {
   return '/inventory/item/' + this._id;
 });
 
