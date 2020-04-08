@@ -1,5 +1,17 @@
-exports.listItems = (req, res) => {
-  res.send('NOT IMPLEMENTED: listItems');
+const Item = require('../models/item');
+const async = require('async');
+
+exports.listItems = (req, res, next) => {
+  // get list of items
+  Item.find({}).exec((err, items) => {
+    // handle errors
+    if (err) return next(err);
+    // render
+    res.render('item_list', {
+      title: 'All Items',
+      items,
+    });
+  });
 };
 
 exports.itemDetails = (req, res) => {
