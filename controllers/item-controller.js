@@ -28,8 +28,10 @@ exports.itemDetails = (req, res, next) => {
     });
 };
 
-exports.createItemGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: createItemGet');
+exports.createItemGet = (req, res, next) => {
+  res.render('item_form.hbs', {
+    title: 'Create New Item',
+  });
 };
 
 exports.createItemPost = (req, res) => {
