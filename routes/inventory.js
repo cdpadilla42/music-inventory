@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-//TODO: Controller
 const categoryController = require('../controllers/category-controller');
 const itemController = require('../controllers/item-controller');
 
