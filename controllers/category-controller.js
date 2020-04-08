@@ -1,4 +1,6 @@
 const Category = require('../models/category');
+const Item = require('../models/item');
+const async = require('async');
 
 exports.listCategories = (req, res, next) => {
   // get list of categories
@@ -11,16 +13,24 @@ exports.listCategories = (req, res, next) => {
 };
 
 exports.categoryDetails = (req, res, next) => {
-  // get category
-  Category.findById(req.params.id).exec((err, results) => {
-    // check for errors
-    if (err) return next(err);
-    //render details
-    res.render('category_details', {
-      title: 'Details',
-      category: results,
-    });
-  });
+  async.parallel(
+    {
+      category: function (callback) {
+        Category.findById(req.params.id).exec(callback);
+      },
+      items: function (callback) {
+        Item.find({ category: req.params.id }).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) return next(err);
+      res.render('category_details', {
+        title: 'Details',
+        category: results.category,
+        items: results.items,
+      });
+    }
+  );
 };
 
 exports.createCategoryGet = (req, res) => {
