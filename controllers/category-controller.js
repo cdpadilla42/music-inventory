@@ -10,8 +10,17 @@ exports.listCategories = (req, res, next) => {
   });
 };
 
-exports.categoryDetails = (req, res) => {
-  res.send('NOT IMPLEMENTED: Detailed Category');
+exports.categoryDetails = (req, res, next) => {
+  // get category
+  Category.findById(req.params.id).exec((err, results) => {
+    // check for errors
+    if (err) return next(err);
+    //render details
+    res.render('category_details', {
+      title: 'Details',
+      category: results,
+    });
+  });
 };
 
 exports.createCategoryGet = (req, res) => {
