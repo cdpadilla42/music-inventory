@@ -1,57 +1,59 @@
 const express = require('express');
-const router = express.router();
+const router = express.Router();
 //TODO: Controller
-const categoryController = require('');
-const itemController = require('');
+const categoryController = require('../controllers/category-controller');
+const itemController = require('../controllers/item-controller');
 
 /// Cateories ///
 
 // GET request for list of categories
-router.get('/categories', listCategories);
+router.get('/categories', categoryController.listCategories);
 
 // GET request for category details
-router.get('/category/:id', categoryDetails);
+router.get('/category/:id', categoryController.categoryDetails);
 
 // GET request for creating category
-router.get('/category/create', createCategoryGet);
+router.get('/category/create', categoryController.createCategoryGet);
 
 // POST request for creating category
-router.post('/category/create', createCategoryPost);
+router.post('/category/create', categoryController.createCategoryPost);
 
 // GET request for updating category
-router.get('/category/:id/update', categoryUpdateGet);
+router.get('/category/:id/update', categoryController.categoryUpdateGet);
 
 // POST request for updating category
-router.post('/category/:id/update', categoryUpdatePost);
+router.post('/category/:id/update', categoryController.categoryUpdatePost);
 
 // GET request for deleting category
-router.get('/category/:id/delete', categoryDeleteGet);
+router.get('/category/:id/delete', categoryController.categoryDeleteGet);
 
 // POST request for deleting category
-router.post('/category/:id/delete', categoryDeletePost);
+router.post('/category/:id/delete', categoryController.categoryDeletePost);
 
 /// Items ///
 
 // GET request for list of items
-router.get('/items', listItems);
+router.get('/items', itemController.listItems);
 
 // GET request for item details
-router.get('/item/:id', itemDetails);
+router.get('/item/:id', itemController.itemDetails);
 
 // GET request for creating item
-router.get('/item/:id/create', createItemGet);
+router.get('/item/:id/create', itemController.createItemGet);
 
 // POST request for creating item
-router.post('/item/:id/create', createItemPost);
+router.post('/item/:id/create', itemController.createItemPost);
 
 // GET request for updating item
-router.get('/item/:id/update', itemUpdateGet);
+router.get('/item/:id/update', itemController.itemUpdateGet);
 
 // POST request for updating item
-router.post('/item/:id/update', itemUpdatePost);
+router.post('/item/:id/update', itemController.itemUpdatePost);
 
 // GET request for deleting item
-router.get('/item/:id/delete', itemDeleteGet);
+router.get('/item/:id/delete', itemController.itemDeleteGet);
 
 // POST request for deleting item
-router.get('/item/:id/delete', itemDeletePost);
+router.get('/item/:id/delete', itemController.itemDeletePost);
+
+module.exports = router;
