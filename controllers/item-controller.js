@@ -14,8 +14,18 @@ exports.listItems = (req, res, next) => {
   });
 };
 
-exports.itemDetails = (req, res) => {
-  res.send('NOT IMPLEMENTED: Detailed Item');
+exports.itemDetails = (req, res, next) => {
+  Item.findById(req.params.id)
+    .populate('category')
+    .exec(function (err, item) {
+      // handle err
+      if (err) return next(err);
+      // render results
+      res.render('item_details', {
+        title: 'Details',
+        item,
+      });
+    });
 };
 
 exports.createItemGet = (req, res) => {
