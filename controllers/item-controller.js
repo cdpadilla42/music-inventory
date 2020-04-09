@@ -2,6 +2,7 @@ const Item = require('../models/item');
 const Category = require('../models/category');
 const { body, sanitizeBody, validationResult } = require('express-validator');
 const async = require('async');
+const admin = require('../admin');
 
 exports.listItems = (req, res, next) => {
   // get list of items
@@ -118,11 +119,9 @@ exports.itemUpdateGet = (req, res) => {
 
 exports.itemUpdatePost = [
   // validate
-  body('name', 'Name required')
-    .trim()
-    .isLength({ min: 1 })
-    .isAlphanumeric()
-    .withMessage('Must be Alphanumeric'),
+  body('name', 'Name required').trim().isLength({ min: 1 }),
+  // .isAlphanumeric()
+  // .withMessage('Name Must be Alphanumeric')
   body('description', 'Description required').trim().isLength({ min: 1 }),
   body('price', 'Price must be a number').isNumeric(),
   body(
@@ -136,6 +135,7 @@ exports.itemUpdatePost = [
   sanitizeBody('category').escape(),
   sanitizeBody('price').escape(),
   sanitizeBody('stock').escape(),
+  sanitizeBody('key').escape(),
 
   // Process
   (req, res, next) => {
@@ -150,6 +150,7 @@ exports.itemUpdatePost = [
     });
     // handle errors
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
       // return to form w/ errors
       Category.find({}, (err, categories) => {

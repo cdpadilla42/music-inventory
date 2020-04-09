@@ -39,12 +39,18 @@
   <fieldset>
     <input type="submit" value="Submit">
   </fieldset>
+  {{!-- <fieldset>
+   <label for="name">
+      Admin Key:
+    <input type="text" name="key" required="true">
+    </label>
+  </fieldset> --}}
 </form>
 
 {{#if errors}}
   <strong>Errors:</strong>
   {{#each errors}}
-    {{this}}
+    {{this.msg}}
   {{/each}}
 {{errors}}
 
