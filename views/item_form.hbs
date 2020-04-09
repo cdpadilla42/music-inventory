@@ -4,14 +4,14 @@
   <fieldset>
     <label for="name">
       Name:
-    <input type="text" name="name" required="true">
+    <input type="text" name="name" required="true" {{#if item}}value="{{item.name}}"{{/if}}>
     </label>
   </fieldset>
   <fieldset>
     <label for="description">
       Description:
       <br>
-    <textarea name="description" required="true" rows="4"></textarea>
+    <textarea name="description" required="true" rows="4">{{#if item}}{{item.description}}{{/if}}</textarea>
     </label>
   </fieldset>
   <fieldset>
@@ -27,13 +27,13 @@
   <fieldset>
     <label for="price">
       Price:
-    <input type="number" name="price" min="1" required="true">
+    <input type="number" name="price" min="1" required="true" {{#if item}}value="{{item.price}}"{{/if}}>
     </label>
   </fieldset>
   <fieldset>
     <label for="stock">
       Stock:
-    <input type="number" name="stock" required="true">
+    <input type="number" name="stock" required="true" {{#if item}}value="{{item.stock}}"{{/if}}>
     </label>
   </fieldset>
   <fieldset>
