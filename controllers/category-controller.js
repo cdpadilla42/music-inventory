@@ -123,6 +123,7 @@ exports.categoryUpdatePost = [
       // render form again
       res.render('category_form', {
         title: 'Create New Category',
+        category,
         errors: errors.array(),
       });
     } else {

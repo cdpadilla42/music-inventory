@@ -4,11 +4,11 @@
   <fieldset>
     <label for="name">
       Name:
-    <input type="text" name="name" required="true">
+    <input type="text" name="name" required="true" {{#if category}}value="{{category.name}}"{{/if}}>
     </label>
     <label for="name">
       Description:
-    <textarea name="description" required="true"></textarea>
+    <textarea name="description" required="true">{{#if category}}{{category.description}}{{/if}}</textarea>
     </label>
   </fieldset>
   <fieldset>
