@@ -42,7 +42,10 @@
 </form>
 
 {{#if errors}}
-
+  <strong>Errors:</strong>
+  {{#each errors}}
+    {{this}}
+  {{/each}}
 {{errors}}
 
 {{/if}}
