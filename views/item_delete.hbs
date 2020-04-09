@@ -1,0 +1,11 @@
+<h1>{{title}}</h1>
+
+<p>
+  Are you sure you want to delete <strong>{{item.name}}</strong>?
+</p>
+
+<form action="" method="post">
+  <input type="hidden" name="id" value="{{item._id}}">
+  <input type="hidden" name="category" value="{{item.category}}">
+  <input type="submit" value="Delete">
+</form>

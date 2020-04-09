@@ -50,7 +50,7 @@ router.post('/item/:id/update', itemController.itemUpdatePost);
 router.get('/item/:id/delete', itemController.itemDeleteGet);
 
 // POST request for deleting item
-router.get('/item/:id/delete', itemController.itemDeletePost);
+router.post('/item/:id/delete', itemController.itemDeletePost);
 
 // GET request for item details
 router.get('/item/:id', itemController.itemDetails);

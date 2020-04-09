@@ -171,10 +171,30 @@ exports.itemUpdatePost = [
   },
 ];
 
-exports.itemDeleteGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: itemDeleteGet');
+exports.itemDeleteGet = (req, res, next) => {
+  // get Item
+  Item.findById(req.params.id).exec((err, item) => {
+    // handle errors
+    if (err) return next(err);
+    if (item == null) {
+      const error = new Error('Item not found');
+      error.status = 404;
+      return next(error);
+    }
+    // render page
+    res.render('item_delete', {
+      title: 'Delete Item',
+      item,
+    });
+  });
 };
 
-exports.itemDeletePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: itemDeletePost');
+exports.itemDeletePost = (req, res, next) => {
+  // find item and delete
+  Item.findByIdAndRemove(req.params.id, function deleteItem(err) {
+    // handle errors
+    if (err) return next(err);
+    // redirect to category list
+    res.redirect('/inventory/items');
+  });
 };
