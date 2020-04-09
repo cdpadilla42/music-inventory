@@ -94,14 +94,6 @@ exports.categoryUpdateGet = (req, res, next) => {
 };
 
 exports.categoryUpdatePost = [
-  // Validate form
-  // Sanitize Body
-  // Process Request
-  // create new Category
-  // Handle Errors
-  // Include 404
-  // Success! Save and redirect
-
   body('name', 'Name required').trim().isLength({ min: 1 }),
   body('description', 'description required').trim().isLength({ min: 1 }),
 
@@ -142,8 +134,34 @@ exports.categoryUpdatePost = [
   },
 ];
 
-exports.categoryDeleteGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: categoryDeleteGet');
+exports.categoryDeleteGet = (req, res, next) => {
+  // get category and list of items
+  async.parallel(
+    {
+      category: function (callback) {
+        Category.findById(req.params.id).exec(callback);
+      },
+      items: function (callback) {
+        Item.find({ category: req.params.id }).exec(callback);
+      },
+    },
+    (err, results) => {
+      // handle errors
+      if (err) return next(err);
+      // include 404
+      if (results.category == null) {
+        const error = new Error('Category not found');
+        error.status = 404;
+        return next(error);
+      }
+      // render page
+      res.render('category_delete', {
+        title: 'Delete Category',
+        category: results.category,
+        items: results.items,
+      });
+    }
+  );
 };
 
 exports.categoryDeletePost = (req, res) => {

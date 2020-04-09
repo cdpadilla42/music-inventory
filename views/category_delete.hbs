@@ -1,0 +1,10 @@
+<h1>{{title}}</h1>
+
+{{!-- TODO: Add logic if categories still exist --}}
+
+<p>Are you sure you want to delete the <strong>{{category.name}}</strong> category?</p>
+
+<form action="" method="post">
+  <input type="hidden" name="id" value="{{category._id}}">
+  <input type="submit" value="Delete">
+</form>
