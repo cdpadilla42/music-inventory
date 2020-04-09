@@ -75,8 +75,17 @@ exports.createCategoryPost = [
   },
 ];
 
-exports.categoryUpdateGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: categoryUpdateGet');
+exports.categoryUpdateGet = (req, res, next) => {
+  // get the category
+  Category.findById(req.params.id).exec((err, category) => {
+    // handle errors
+    if (err) return next(err);
+    // render page
+    res.render('category_form', {
+      title: 'Update Category',
+      category,
+    });
+  });
 };
 
 exports.categoryUpdatePost = (req, res) => {
