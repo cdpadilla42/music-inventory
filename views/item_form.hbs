@@ -6,13 +6,43 @@
       Name:
     <input type="text" name="name" required="true">
     </label>
-    <label for="name">
+  </fieldset>
+  <fieldset>
+    <label for="description">
       Description:
-    <textarea name="description" required="true">
-      </textarea>
+      <br>
+    <textarea name="description" required="true" rows="4"></textarea>
+    </label>
+  </fieldset>
+  <fieldset>
+    <label for="category">
+      Category:
+    <select name="category" id="">
+      {{#each categories}}
+      <option value="{{this._id}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+    </label>
+  </fieldset>
+  <fieldset>
+    <label for="price">
+      Price:
+    <input type="number" name="price" min="1" required="true">
+    </label>
+  </fieldset>
+  <fieldset>
+    <label for="stock">
+      Stock:
+    <input type="number" name="stock" required="true">
     </label>
   </fieldset>
   <fieldset>
     <input type="submit" value="Submit">
   </fieldset>
 </form>
+
+{{#if errors}}
+
+{{errors}}
+
+{{/if}}

@@ -1,0 +1,23 @@
+<h1>{{title}}</h1>
+
+<form action="" method="post">
+  <fieldset>
+    <label for="name">
+      Name:
+    <input type="text" name="name" required="true">
+    </label>
+    <label for="name">
+      Description:
+    <textarea name="description" required="true"></textarea>
+    </label>
+  </fieldset>
+  <fieldset>
+    <input type="submit" value="Submit">
+  </fieldset>
+</form>
+
+{{#if errors}}
+
+{{errors}}
+
+{{/if}}

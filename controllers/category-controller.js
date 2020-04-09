@@ -34,11 +34,54 @@ exports.categoryDetails = (req, res, next) => {
 };
 
 exports.createCategoryGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: createCategoryGet');
+  res.render('category_form', {
+    title: 'Create New Category',
+  });
 };
 
-exports.createCategoryPost = (req, res) => {
-  res.send('NOT IMPLEMENTED: createCategoryPost');
+exports.createCategoryPost = (req, res, next) => {
+  [
+    // Validate form
+    body('name', 'Name required').trim().isLength({ min: 1 }),
+    body('description', 'description required').trim().isLength({ min: 1 }),
+
+    // Sanitize form
+    sanitizeBody('name').escape(),
+    sanitizeBody('description').escape(),
+
+    // Process request
+    (req, res, next) => {
+      // create new Category
+      const category = new Category({
+        name: req.body.name,
+        description: req.body.description,
+      });
+      // hangle errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        // render form again
+        Item.findById(req.params.id)
+          .populate('category')
+          .exec(function (err, item) {
+            // handle err
+            if (err) return next(err);
+            // render results
+            res.render('item_details', {
+              title: 'Details',
+              item,
+              errors: errors.array(),
+            });
+          });
+      } else {
+        // save category
+        category.save((err, newCategory) => {
+          if (err) return next(err);
+          // redirect user
+          res.redirect(newCategory.url);
+        });
+      }
+    },
+  ];
 };
 
 exports.categoryUpdateGet = (req, res) => {

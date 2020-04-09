@@ -1,5 +1,6 @@
 const Item = require('../models/item');
-const async = require('async');
+const Category = require('../models/category');
+const { body, sanitizeBody, validationResult } = require('express-validator');
 
 exports.listItems = (req, res, next) => {
   // get list of items
@@ -29,14 +30,68 @@ exports.itemDetails = (req, res, next) => {
 };
 
 exports.createItemGet = (req, res, next) => {
-  res.render('item_form.hbs', {
-    title: 'Create New Item',
+  // get categories
+  Category.find({}, (err, categories) => {
+    if (err) return next(err);
+    res.render('item_form.hbs', {
+      title: 'Create New Item',
+      categories,
+    });
   });
 };
 
-exports.createItemPost = (req, res) => {
-  res.send('NOT IMPLEMENTED: createItemPost');
-};
+exports.createItemPost = [
+  // validate
+  body('name', 'Name required')
+    .trim()
+    .isLength({ min: 1 })
+    .isAlphanumeric()
+    .withMessage('Must be Alphanumeric'),
+  body('description', 'Description required').trim().isLength({ min: 1 }),
+  body('price', 'Price must be a number').isNumeric(),
+  body(
+    'stock',
+    'Stock must be a number. Input 0 for out of stock item'
+  ).isNumeric(),
+
+  // sanitize
+  sanitizeBody('name').escape(),
+  sanitizeBody('description').escape(),
+  sanitizeBody('category').escape(),
+  sanitizeBody('price').escape(),
+  sanitizeBody('stock').escape(),
+
+  // process request
+  (req, res, next) => {
+    // create new item
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      price: req.body.price,
+      stock: req.body.stock,
+    });
+    // handle errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // return to form w/ errors
+      Category.find({}, (err, categories) => {
+        if (err) return next(err);
+        res.render('item_form.hbs', {
+          title: 'Create New Item',
+          categories,
+          errors: errors.array(),
+        });
+      });
+    } else {
+      // save upon success
+      item.save((err, newItem) => {
+        if (err) return next(err);
+        res.redirect(newItem.url);
+      });
+    }
+  },
+];
 
 exports.itemUpdateGet = (req, res) => {
   res.send('NOT IMPLEMENTED: itemUpdateGet');
