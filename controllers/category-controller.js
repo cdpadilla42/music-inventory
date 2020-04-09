@@ -80,6 +80,11 @@ exports.categoryUpdateGet = (req, res, next) => {
   Category.findById(req.params.id).exec((err, category) => {
     // handle errors
     if (err) return next(err);
+    if (category == null) {
+      const error = new Error('Category not found');
+      error.status = 404;
+      return next(error);
+    }
     // render page
     res.render('category_form', {
       title: 'Update Category',
@@ -88,9 +93,15 @@ exports.categoryUpdateGet = (req, res, next) => {
   });
 };
 
-exports.categoryUpdatePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: categoryUpdatePost');
-};
+exports.categoryUpdatePost = [
+  // Validate form
+  // Sanitize Body
+  // Process Request
+  // create new Category
+  // Handle Errors
+  // Include 404
+  // Success! Save and redirect
+];
 
 exports.categoryDeleteGet = (req, res) => {
   res.send('NOT IMPLEMENTED: categoryDeleteGet');
