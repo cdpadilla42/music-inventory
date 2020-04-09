@@ -101,6 +101,44 @@ exports.categoryUpdatePost = [
   // Handle Errors
   // Include 404
   // Success! Save and redirect
+
+  body('name', 'Name required').trim().isLength({ min: 1 }),
+  body('description', 'description required').trim().isLength({ min: 1 }),
+
+  // Sanitize form
+  sanitizeBody('name').escape(),
+  sanitizeBody('description').escape(),
+
+  // Process request
+  (req, res, next) => {
+    // create new Category
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+      _id: req.params.id,
+    });
+    // hangle errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // render form again
+      res.render('category_form', {
+        title: 'Create New Category',
+        errors: errors.array(),
+      });
+    } else {
+      // save category
+      Category.findByIdAndUpdate(
+        req.params.id,
+        category,
+        {},
+        (err, newCategory) => {
+          if (err) return next(err);
+          // redirect user
+          res.redirect(newCategory.url);
+        }
+      );
+    }
+  },
 ];
 
 exports.categoryDeleteGet = (req, res) => {
