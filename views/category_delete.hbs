@@ -4,16 +4,15 @@
 
 {{#if items}}
 Delete these items before deleting the Category
-<ul>
-{{#each items}}
-  <li>
-  <a href="{{this.url}}">
-  {{this.name}}
-  </a>
-  </li>
-{{/each}}
-</ul>
-
+  <ul>
+    {{#each items}}
+      <li>
+        <a href="{{this.url}}">
+          {{this.name}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
 {{else}}
 
 
