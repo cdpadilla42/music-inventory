@@ -2,9 +2,26 @@
 
 {{!-- TODO: Add logic if categories still exist --}}
 
+{{#if items}}
+Delete these items before deleting the Category
+<ul>
+{{#each items}}
+  <li>
+  <a href="{{this.url}}">
+  {{this.name}}
+  </a>
+  </li>
+{{/each}}
+</ul>
+
+{{else}}
+
+
 <p>Are you sure you want to delete the <strong>{{category.name}}</strong> category?</p>
 
 <form action="" method="post">
   <input type="hidden" name="id" value="{{category._id}}">
   <input type="submit" value="Delete">
 </form>
+
+{{/if}}
