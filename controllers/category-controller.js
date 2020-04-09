@@ -176,7 +176,7 @@ exports.categoryDeletePost = (req, res, next) => {
     },
     (err, results) => {
       if (err) return next(err);
-      if (!results.items.length > 0) {
+      if (results.items.length > 0) {
         res.render('category_delete', {
           title: 'Delete Category',
           category: results.category,
@@ -191,32 +191,4 @@ exports.categoryDeletePost = (req, res, next) => {
       }
     }
   );
-
-  // check for items
-  Item.find({ category: req.params.id }).exec((err, items) => {
-    // handle errors
-    if (err) return next(err);
-    // if items redirect to form
-    if (!items.isEmpty()) {
-      Category.findById(req.params.id).exec((err, category) => {
-        // handle errors
-        if (err) return next(err);
-        // include 404
-        if (results.category == null) {
-          const error = new Error('Category not found');
-          error.status = 404;
-          return next(error);
-        }
-        // render page
-        res.render('category_delete', {
-          title: 'Delete Category',
-          category: results.category,
-          items: results.items,
-        });
-      });
-    } else {
-      // delete
-      // render category list
-    }
-  });
 };
