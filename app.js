@@ -6,10 +6,10 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var compression = require('compression');
 var helmet = require('helmet');
+require('dotenv').config();
 
 // Database
-var dev_db_url =
-  'mongodb+srv://chris:chris@blockcluster-0kded.mongodb.net/music-inventory?retryWrites=true&w=majority';
+var dev_db_url = process.env.DB_URI;
 var mongoDB = process.env.MONGODV_URI || dev_db_url;
 
 mongoose.connect(mongoDB, { useNewUrlParser: true });
