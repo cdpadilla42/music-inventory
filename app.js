@@ -8,8 +8,10 @@ var compression = require('compression');
 var helmet = require('helmet');
 
 // Database
-var mongoDB =
-  'mongodb+srv://chris:chris@blockcluster-0kded.mongodb.net/music-inventory?retryWrites=true&w=majority'; // TODO Get URI
+var dev_db_url =
+  'mongodb+srv://chris:chris@blockcluster-0kded.mongodb.net/music-inventory?retryWrites=true&w=majority';
+var mongoDB = process.env.MONGODV_URI || dev_db_url;
+
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Mongo DB connection error:'));
