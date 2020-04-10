@@ -10,7 +10,7 @@ require('dotenv').config();
 
 // Database
 var dev_db_url = process.env.DB_URI;
-var mongoDB = process.env.MONGODV_URI || dev_db_url;
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
