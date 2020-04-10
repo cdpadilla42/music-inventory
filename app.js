@@ -4,9 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var compression = require('compression');
+var helmet = require('helmet');
 
 // Database
-// TODO: Test db connection
 var mongoDB =
   'mongodb+srv://chris:chris@blockcluster-0kded.mongodb.net/music-inventory?retryWrites=true&w=majority'; // TODO Get URI
 mongoose.connect(mongoDB, { useNewUrlParser: true });
@@ -28,6 +29,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(compression());
+app.use(helmet());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
